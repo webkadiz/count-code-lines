@@ -47,6 +47,7 @@ def printParamsInfo():
     printIndent()
     printIndent()
     print(paramDesc)
+    print()
   print()
 
 def printExamples():
