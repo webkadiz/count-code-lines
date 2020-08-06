@@ -4,12 +4,12 @@ helpInfo = [
   {
     "keys": ["-e", "--ext"],
     "desc": "Option's value is a list of extensions with dot separate comma. This files will be" +
-            f"{optionDescCarry}counted."
+            f"{optionDescCarry}counted. By default - [.js]"
   },
   {
     "keys": ["-b", "--blackbox"],
     "desc": "Option's value is a list of files and directories separate comma. This entities will be" +
-            f"{optionDescCarry}ignored on all levels."
+            f"{optionDescCarry}ignored on all levels. By default - [node_modules]"
   },
   {
     "keys": ["--with-dots"],
