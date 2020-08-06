@@ -1,0 +1,128 @@
+#!/usr/bin/env python3
+
+import sys
+import os.path
+from print_help import printHelp
+
+
+def isParamKey(paramStr):
+  return paramStr in mapParamKeyOption
+
+
+def mapParamKeyToOption(paramKey):
+  return mapParamKeyOption[paramKey]
+
+
+def prepareParamValue(paramValue):
+  return paramValue.split(",")
+
+
+def setOption(optionName, optionValue):
+  if type(options[optionName]) == list:
+    options[optionName].extend(optionValue)
+  else:
+    options[optionName] = optionValue
+
+
+def gluePaths(parentPath, childEntity):
+  return os.path.join(parentPath, childEntity)
+
+
+def folderBypass(folderPath):
+  global countCodeLinesAll
+
+  childEntities = os.listdir(folderPath)
+
+  for childEntity in childEntities:
+
+    if options["withDots"] == False and childEntity[0] == ".": # If something begin with dot 
+      continue
+    if childEntity in options["blackboxEntities"]:
+      continue
+
+
+    # Get path for child of current directory
+    childPath = gluePaths(folderPath, childEntity) 
+    
+
+    if os.path.isdir(childPath):
+      folderBypass(childPath)
+    elif os.path.isfile(childPath):
+      childExt = os.path.splitext(childPath)[1]
+
+      if childExt not in options["allowedExtensions"]: continue
+      
+      file = open(childPath)
+
+      countCodeLines = len(file.readlines()) 
+      countCodeLinesAll += countCodeLines
+
+      print("counted file =>", childPath)
+
+    else:
+      print("who knows =>", childPath)
+
+
+def processParams(rawParams):
+  argv = rawParams[1:]
+
+  while len(argv):
+    curParam = argv.pop(0)
+
+    if isParamKey(curParam):
+      optionName = mapParamKeyToOption(curParam)
+
+      if optionName.startswith("with"):
+        preparedParamValue = True
+      else:
+        paramValue = argv.pop(0)
+        preparedParamValue = prepareParamValue(paramValue)
+
+      setOption(optionName, preparedParamValue)
+
+    if len(argv) == 0:
+      setOption("folderSearchPaths", prepareParamValue(curParam))
+
+
+def printResult():
+  global countCodeLinesAll
+
+  print()
+  print("Total code lines:", countCodeLinesAll)
+
+
+if __name__ == "__main__":
+  # initialization
+
+  countCodeLinesAll = 0 # main parameter
+
+  mapParamKeyOption = {
+    "-e": "allowedExtensions",
+    "--ext": "allowedExtensions",
+    "-b": "blackboxEntities",
+    "--blackbox": "blackboxEntities",
+    "--with-dots": "withDots",
+    "--help": "withHelp"
+  }
+
+  options = {
+    "folderSearchPaths": [],
+    "allowedExtensions": [".js"],
+    "blackboxEntities": ["node_modules"],
+    "withDots": False,
+    "withHelp": False
+  }
+
+
+  # start programm
+
+  processParams(sys.argv)
+
+  if options["withHelp"]:
+    printHelp()
+    exit(0)
+
+  for folderSearchPath in options["folderSearchPaths"]:
+    folderBypass(folderSearchPath)
+
+  printResult()
