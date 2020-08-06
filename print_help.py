@@ -16,7 +16,7 @@ helpInfo = [
     "desc": "This option does not have value. This include files and directories with dot in watched."
   },
   {
-    "keys": ["--help"],
+    "keys": ["-h", "--help"],
     "desc": "Print help."
   }
 ]
