@@ -4,12 +4,12 @@ helpInfo = [
   {
     "keys": ["-e", "--ext"],
     "desc": "Option's value is a list of extensions with dot separate comma. This files will be" +
-            f"{optionDescCarry}counted. By default - [.js]"
+            f"{optionDescCarry}counted. By default - [.js]."
   },
   {
     "keys": ["-b", "--blackbox"],
     "desc": "Option's value is a list of files and directories separate comma. This entities will be" +
-            f"{optionDescCarry}ignored on all levels. By default - [node_modules]"
+            f"{optionDescCarry}ignored on all levels. By default - [node_modules]."
   },
   {
     "keys": ["--with-dots"],
@@ -18,6 +18,12 @@ helpInfo = [
   {
     "keys": ["-h", "--help"],
     "desc": "Print help."
+  },
+  {
+    "keys": ["-i", "--include"],
+    "desc": "Option's value is a list of files and directories separate comma. This entities will be" +
+            f"{optionDescCarry}included in watched. But blackbox have higher priority than include." +
+            f"{optionDescCarry}By default - []."
   }
 ]
 
