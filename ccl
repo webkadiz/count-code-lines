@@ -50,7 +50,8 @@ def folderBypass(folderPath):
     elif os.path.isfile(childPath):
       childExt = os.path.splitext(childPath)[1]
 
-      if childExt not in options["allowedExtensions"]: continue
+      if childExt not in options["allowedExtensions"] and childEntity not in options["includedEntities"]:
+        continue
       
       file = open(childPath)
 
@@ -103,7 +104,9 @@ if __name__ == "__main__":
     "--blackbox": "blackboxEntities",
     "--with-dots": "withDots",
     "-h": "withHelp",
-    "--help": "withHelp"
+    "--help": "withHelp",
+    "-i": "includedEntities",
+    "--include": "includedEntities"
   }
 
   options = {
@@ -111,7 +114,8 @@ if __name__ == "__main__":
     "allowedExtensions": [".js"],
     "blackboxEntities": ["node_modules"],
     "withDots": False,
-    "withHelp": False
+    "withHelp": False,
+    "includedEntities": []
   }
 
 
