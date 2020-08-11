@@ -58,7 +58,7 @@ def folderBypass(folderPath):
       countCodeLines = len(file.readlines()) 
       countCodeLinesAll += countCodeLines
 
-      print("counted file =>", childPath)
+      print("counted file =>", childPath, ":", countCodeLines, "lines")
 
     else:
       print("who knows =>", childPath)
